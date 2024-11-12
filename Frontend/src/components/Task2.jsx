@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Bar } from 'react-chartjs-2';
+import MoonLoader from "react-spinners/MoonLoader";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -102,23 +103,11 @@ const Task2 = () => {
     fetchData();
   }, []);
 
-  if (isLoading) {
-    return <div className="text-center p-4">Loading chart data...</div>;
-  }
-
-  if (error) {
-    return <div className="text-center p-4 text-red-500">Error: {error}</div>;
-  }
-
-  if (!chartData.labels.length) {
-    return <div className="text-center p-4">No data available</div>;
-  }
-
   return (
     <div className="w-full max-w-4xl mx-auto p-4">
       <div className="bg-white rounded-lg shadow-lg p-6">
         <h3>Task-2</h3>
-        <Bar data={chartData} options={options} />
+        {isLoading || error ? <MoonLoader /> : <Bar data={chartData} options={options} />}
       </div>
     </div>
   );

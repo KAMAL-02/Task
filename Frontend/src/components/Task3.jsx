@@ -10,6 +10,7 @@ import {
   Tooltip,
   Legend
 } from 'chart.js';
+import MoonLoader from 'react-spinners/MoonLoader';
 
 ChartJS.register(
   CategoryScale,
@@ -49,6 +50,7 @@ const options = {
 };
 
 const EnergyConsumptionChart = () => {
+  const [isloading, setIsLoading] = useState(false);
   const [chartData, setChartData] = useState({
     labels: [],
     datasets: [{
@@ -82,6 +84,7 @@ const EnergyConsumptionChart = () => {
     setError(null);
 
     try {
+      setIsLoading(true);
       const response = await axios.post('http://localhost:5000/api/chartAccess-log', formData, {
         headers: {
           'Content-Type': 'application/json',
@@ -122,6 +125,8 @@ const EnergyConsumptionChart = () => {
     } catch (error) {
       console.error('Error submitting form:', error);
       setError('An error occurred while fetching data. Please try again.');
+    }finally {
+      setIsLoading(false);
     }
   };
 
@@ -178,8 +183,8 @@ const EnergyConsumptionChart = () => {
       <div className="w-full max-w-4xl mx-auto p-4">
         <div className="bg-white rounded-lg shadow-lg p-6">
           <h3>Energy Consumption Chart</h3>
-          {error ? (
-            <p className="text-red-500">{error}</p>
+          {error || isloading ? (
+            <MoonLoader />
           ) : (
             chartData.datasets[0].data.length > 0 ? (
               <Bar data={chartData} options={options} />
