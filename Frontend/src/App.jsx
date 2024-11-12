@@ -1,10 +1,12 @@
 import React from 'react'
-import Chart from './chart'
+import Task1 from './components/Task1'
+import Task2 from './components/Task2'
 
 const App = () => {
   return (
     <div>
-      <Chart />
+      <Task1 />
+      <Task2 />
     </div>
   )
 }

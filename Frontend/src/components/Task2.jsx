@@ -47,7 +47,7 @@ const options = {
   }
 };
 
-const Chart = () => {
+const Task2 = () => {
   const [chartData, setChartData] = useState({
     labels: [],
     datasets: [{
@@ -59,13 +59,14 @@ const Chart = () => {
     }]
   });
   const [isLoading, setIsLoading] = useState(true);
+  
   const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         setIsLoading(true);
-        const response = await fetch('http://localhost:5000/api');
+        const response = await fetch('http://localhost:5000/api/energy-data');
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
@@ -73,7 +74,7 @@ const Chart = () => {
         
         if (Array.isArray(data) && data.length > 0) {
           const dates = data.map(item => {
-            const date = new Date(item.createdAt.$date);
+            const date = new Date(item.createdAt);
             return date.toLocaleDateString();
           });
           
@@ -116,10 +117,11 @@ const Chart = () => {
   return (
     <div className="w-full max-w-4xl mx-auto p-4">
       <div className="bg-white rounded-lg shadow-lg p-6">
+        <h3>Task-2</h3>
         <Bar data={chartData} options={options} />
       </div>
     </div>
   );
 };
 
-export default Chart;
+export default Task2;
