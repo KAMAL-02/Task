@@ -26,22 +26,35 @@ const EnergyDataSchema = new mongoose.Schema({
   }
 });
 
-const AccessLogSchema = new mongoose.Schema({
+const chartAccessLogSchema = new mongoose.Schema({
   accessTime: { type: String, required: true },
-  accessDate: { type: Date, required: true },
+  accessDate: { type: String, required: true },
   employeeName: { type: String, required: true },
-  algoStatus: { type: Number, required: true }
+  algoStatus: { type: Number, required: true },
+  createdAt: { type: Date, default: Date.now },
 });
-
 const EnergyData = mongoose.model('EnergyData', EnergyDataSchema);
-const AccessLog = mongoose.model('AccessLog', AccessLogSchema);
+const ChartAccessLog = mongoose.model('ChartAccessLog', chartAccessLogSchema);
 
 
-app.post('/api/access-log', async (req, res) => {
+app.post('/api/chartAccess-log', async (req, res) => {
   try {
-    const newLog = new AccessLog(req.body);
+    const { accessTime, accessDate, employeeName, algoStatus } = req.body;
+    const newLog = new ChartAccessLog({
+      accessTime,
+      accessDate,
+      employeeName,
+      algoStatus,
+    });
     await newLog.save();
-    res.status(201).json(newLog);
+
+    const energyData = await EnergyData.find({ algo_status: algoStatus })
+    .sort({ createdAt: 1 });
+    console.log(energyData);
+    res.json({
+      success: true,
+      data: energyData,
+    });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -73,7 +86,7 @@ app.get('/api/data', (req, res) => {
       const sortedData = dataArray.sort((a, b) => {
         const dateA = new Date(a.createdAt.$date);
         const dateB = new Date(b.createdAt.$date);
-        return dateA - dateB; // Descending order (newest first)
+        return dateA - dateB;
       });
 
       res.json(sortedData);
