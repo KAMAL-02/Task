@@ -68,12 +68,13 @@ const Task1 = () => {
     const fetchData = async () => {
       try {
         setIsLoading(true);
+        console.log(import.meta.env.VITE_URL);
         const response = await fetch(`${import.meta.env.VITE_URL}/api/data`);
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
         const data = await response.json();
-        
+        console.log(data);
         if (Array.isArray(data) && data.length > 0) {
           const dates = data.map(item => {
             const date = new Date(item.createdAt.$date);
