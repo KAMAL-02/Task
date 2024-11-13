@@ -9,8 +9,9 @@ require('dotenv').config();
 const app = express();
 
 app.use(cors({
-  origin: ["https://task-8ck4.vercel.app/"],
-  methods: ["POST", "GET"],
+  origin: ['http://localhost:3000', 'http://localhost:5173', 'https://task-8ck4.vercel.app'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true
 }));
 
