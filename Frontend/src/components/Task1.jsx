@@ -106,9 +106,10 @@ const Task1 = () => {
 
   return (
     <div className="w-full max-w-4xl mx-auto p-4">
-      <div className="bg-white rounded-lg shadow-lg p-6">
-        <h3>Task-1</h3>
-        {isLoading || error ? <MoonLoader /> : <Bar data={chartData} options={options} />}
+      <h3>Task-1</h3>
+      <div className="bg-white rounded-lg shadow-lg border border-black p-6 flex items-center justify-center">
+        
+        {isLoading || error ? <MoonLoader size={40} /> : <Bar data={chartData} options={options} />}
       </div>
     </div>
   );
