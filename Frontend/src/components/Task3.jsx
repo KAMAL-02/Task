@@ -90,7 +90,7 @@ const EnergyConsumptionChart = () => {
       setIsLoading(true);
       const userId = localStorage.getItem("userId");
       const response = await axios.post(
-        "http://localhost:5000/api/chartAccess-log",
+        `${import.meta.env.VITE_URL}/api/chartAccess-log`,
         formData,
         {
           headers: {

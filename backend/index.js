@@ -8,7 +8,12 @@ require('dotenv').config();
 
 const app = express();
 
-app.use(cors());
+app.use(cors({
+  origin: [""],
+  methods: ["POST", "GET"],
+  credentials: true
+}));
+
 app.use(express.json());
 
 //! connecting to mongoDB
@@ -54,6 +59,7 @@ app.get('/api/energy-data', async (req, res) => {
   }
 });
 
+//! Task-3 API route
 app.post('/api/chartAccess-log', authMiddleware, async (req, res) => {
   try {
     const { accessTime, accessDate, employeeName, algoStatus } = req.body;
@@ -66,21 +72,24 @@ app.post('/api/chartAccess-log', authMiddleware, async (req, res) => {
   }
 });
 
-//! Task-3 API route
+
 app.get("/api/getChartAccess-logs", async (req, res) => {
   try {
-    const logs = await ChartAccessLog.find({}).sort({ accessTime: 1 });
+    const { startDate, endDate } = req.query;
+    let query = {};
+
+    if (startDate && endDate) {
+      query.accessDate = {
+        $gte: startDate,
+        $lte: endDate
+      };
+    }
+
+    const logs = await ChartAccessLog.find(query).sort({ accessDate: 1, accessTime: 1 });
     res.json(logs);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
-});
-
-
-app.use(express.static(path.join(__dirname, 'frontend/build')));
-
-app.get('*', (req, res) => {
-  res.sendFile(path.resolve(__dirname, 'frontend', 'build', 'index.html'));
 });
 
 const PORT = process.env.PORT || 5000;

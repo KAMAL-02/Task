@@ -67,7 +67,7 @@ const Task2 = () => {
     const fetchData = async () => {
       try {
         setIsLoading(true);
-        const response = await fetch('http://localhost:5000/api/energy-data');
+        const response = await fetch(`${import.meta.env.VITE_URL}/api/energy-data`);
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }

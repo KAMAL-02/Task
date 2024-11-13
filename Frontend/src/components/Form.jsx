@@ -1,4 +1,4 @@
-// AccessLogForm.js
+//! AccessLogForm.js
 import React from 'react';
 
 const Form = ({ formData, handleChange, handleSubmit }) => {
