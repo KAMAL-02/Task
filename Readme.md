@@ -2,7 +2,7 @@
 
 - **Task 1 & 2**: Completed tasks by fetching data directly from a file and also importing the data into MongoDB and fetching it from there.
 
-![Task 1-2](frontend/public/Task1-2.png)
+![Task 1-2](Frontend/public/Task1-2.png)
 
 ## Task 3
 
@@ -14,16 +14,16 @@
 
 Only authenticated users can submit the form and view the data.
 
-![Task 3](frontend/public/Task-3.png)
-![Authenticate](frontend/public/Authenticate.png)
-![Auth Error](frontend/public/Auth-error.png)
+![Task 3](Frontend/public/Task-3.png)
+![Authenticate](Frontend/public/Authenticate.png)
+![Auth Error](Frontend/public/Auth-error.png)
 
 ## Chart Access Logs
 
 - Displayed chart access logs based on the access time.
 - Implemented a date filter to get the access data as requested.
 
-![Chart Access Logs](frontend/public/ChartAccess.png)
+![Chart Access Logs](Frontend/public/ChartAccess.png)
 
 ## Deployment
 
