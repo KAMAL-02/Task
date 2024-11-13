@@ -5,7 +5,7 @@ const fs = require('fs');
 const path = require('path');
 
 
-const MONGODB_URI = 'mongodb+srv://kamalnayan403:hXY9W04nXNpzgDRA@cluster0.lot43.mongodb.net/data';
+const MONGODB_URI = process.env.MONGODB_URI;
 
 const EnergyDataSchema = new mongoose.Schema({
     createdAt: Date,
@@ -38,15 +38,12 @@ const EnergyDataSchema = new mongoose.Schema({
 
   async function importData() {
     try {
-      // Connect to MongoDB
       await mongoose.connect(MONGODB_URI);
       console.log('Connected to MongoDB');
   
-      // Read the JSON file
       const jsonPath = path.join(__dirname, 'data.json');
       const data = JSON.parse(fs.readFileSync(jsonPath, 'utf8'));
   
-      // Transform the data to handle MongoDB specific fields
       const transformedData = data.map(item => ({
         ...item,
         _id: new mongoose.Types.ObjectId(item._id.$oid),
@@ -57,22 +54,14 @@ const EnergyDataSchema = new mongoose.Schema({
         devices: item.devices.map(device => new mongoose.Types.ObjectId(device.$oid))
       }));
   
-      // Clear existing data (optional)
-      await EnergyData.deleteMany({});
-      console.log('Cleared existing data');
-  
-      // Import the data
       const result = await EnergyData.insertMany(transformedData);
       console.log(`Successfully imported ${result.length} records`);
   
     } catch (error) {
       console.error('Error importing data:', error);
     } finally {
-      // Close the connection
       await mongoose.connection.close();
       console.log('MongoDB connection closed');
     }
   }
-  
-  // Run the import
   importData();
